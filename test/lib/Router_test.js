@@ -51,7 +51,7 @@ describe('API Router', function() {
             });
 
             // Set up "/bar/:barId" resource -- async
-            this.getBarSpy = sinon.spy(function(request, connection) {
+            this.getFooSpy = sinon.spy(function(request, connection) {
                 return new Promise(function(resolve, reject) {
                     setTimeout(function() {
                         resolve({
@@ -68,7 +68,7 @@ describe('API Router', function() {
                 }
             };
             this.router.route('/bar/:barId', this.barSchema, {
-                get: this.getBarSpy
+                get: this.getFooSpy
             });
         });
 
@@ -1456,7 +1456,7 @@ describe('API Router', function() {
                         return { foo: resource.foo };
                     });
 
-                    this.getBarSpy = sinon.spy(function(request, connection) {
+                    this.getFooSpy = sinon.spy(function(request, connection) {
                         return { bar: resource.bar };
                     });
 
@@ -1490,7 +1490,7 @@ describe('API Router', function() {
                             },
                             {
                                 props: ['bar'],
-                                callback: this.getBarSpy
+                                callback: this.getFooSpy
                             }
                         ],
 
@@ -1523,7 +1523,7 @@ describe('API Router', function() {
                         return this.connection.get('/multiple-handlers')
                         .then(function(foo) {
                             this.getFooSpy.called.should.be.true;
-                            this.getBarSpy.called.should.be.true;
+                            this.getFooSpy.called.should.be.true;
                         }.bind(this));
                     });
 
@@ -1531,7 +1531,7 @@ describe('API Router', function() {
                         return this.connection.get('/multiple-handlers', {props: ['foo']})
                         .then(function(foo) {
                             this.getFooSpy.called.should.be.true;
-                            this.getBarSpy.called.should.be.false;
+                            this.getFooSpy.called.should.be.false;
                         }.bind(this));
                     });
 
@@ -1539,7 +1539,7 @@ describe('API Router', function() {
                         return this.connection.get('/multiple-handlers', {props: ['bar']})
                         .then(function(foo) {
                             this.getFooSpy.called.should.be.false;
-                            this.getBarSpy.called.should.be.true;
+                            this.getFooSpy.called.should.be.true;
                         }.bind(this));
                     });
                 });
